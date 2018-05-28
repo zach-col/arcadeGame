@@ -36,14 +36,29 @@ var Player = function () {
 }
 
 Player.prototype.update = function() {
+    if(player.y == -25){
+        alert("you won!!!!")
+        player.x = 200;
+        player.y = 400;
+    }
+    console.log(player.y)
 }
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-Player.prototype.handleInput = function() {
-
+Player.prototype.handleInput = function(keyPressed) {
+    console.log(keyPressed)
+    if(keyPressed == "left"){
+        player.x -= 25;
+    } else if(keyPressed == "right"){
+        player.x += 25;
+    } else if(keyPressed == "up"){
+        player.y -= 25;
+    } else if(keyPressed == "down"){
+        player.y += 25
+    }
 }
 
 
