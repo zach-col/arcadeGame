@@ -32,16 +32,20 @@ Enemy.prototype.render = function() {
 var Player = function () {
     this.sprite = 'images/char-boy.png';
     this.x = 200;
-    this.y = 400;
+    this.y = 425;
 }
 
+// show alert of winning if user gets to water
 Player.prototype.update = function() {
+    if(enemy1.x === player.x){
+        console.log("same as bug")
+    }
     if(player.y == -25){
         alert("you won!!!!")
+        // place player back at start
         player.x = 200;
         player.y = 400;
     }
-    console.log(player.y)
 }
 
 Player.prototype.render = function() {
@@ -49,22 +53,35 @@ Player.prototype.render = function() {
 }
 
 Player.prototype.handleInput = function(keyPressed) {
-    console.log(keyPressed)
+    // move player based on key click
     if(keyPressed == "left"){
+        // disable button if going out of bounds
+        if(player.x == 25){
+            return
+        }
         player.x -= 25;
     } else if(keyPressed == "right"){
+        // disable button if going out of bounds
+        if(player.x == 375){
+            return
+        }
         player.x += 25;
     } else if(keyPressed == "up"){
         player.y -= 25;
     } else if(keyPressed == "down"){
+        // disable button if going out of bounds
+        if(player.y == 425){
+            return
+        }
         player.y += 25
     }
 }
 
-
-// Now instantiate your objects.
+let enemy1 = new Enemy(-100,200,100)
+let enemy2 = new Enemy(250,100,70)
+let enemy3 = new Enemy(50,50,60)
 // Place all enemy objects in an array called allEnemies
-let allEnemies = [new Enemy(-100,200,100), new Enemy(250,100,70), new Enemy(50,50,60)]
+let allEnemies = [enemy1, enemy2, enemy3];
 
 // Place the player object in a variable called player
 let player = new Player();
