@@ -1,45 +1,51 @@
 // Enemies our player must avoid
 var Enemy = function(x,y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    // create enemy
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
+    this.height = 50;
+    this.width = 40
     this.speed = speed;
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+// Update the enemy's position
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     this.x += 2;
     if(this.x > 510){
         this.x = -100;
     }
 };
 
-// Draw the enemy on the screen, required method for game
+// Draw the enemy on the screen on start up
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
+// create player class
 var Player = function () {
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 425;
+    this.height = 50;
+    this.width = 40;
 }
 
 // show alert of winning if user gets to water
 Player.prototype.update = function() {
-    if(enemy1.x === player.x){
-        console.log("same as bug")
+    // reset player if touching enemy
+    for(i = 0; i < allEnemies.length; i++){
+        if (allEnemies[i].x < player.x + player.width &&
+            allEnemies[i].x + allEnemies[i].width > player.x &&
+            allEnemies[i].y < player.y + player.height &&
+            allEnemies[i].height + allEnemies[i].y > player.y) {
+            // place player back at start
+            player.x = 200;
+            player.y = 400;
+        }
     }
+
+    // if player reaches water reset player and show alert
     if(player.y == -25){
         alert("you won!!!!")
         // place player back at start
@@ -48,10 +54,12 @@ Player.prototype.update = function() {
     }
 }
 
+// draw player on screen on start up
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
+// handle user input and move player accordingly
 Player.prototype.handleInput = function(keyPressed) {
     // move player based on key click
     if(keyPressed == "left"){
@@ -77,17 +85,18 @@ Player.prototype.handleInput = function(keyPressed) {
     }
 }
 
+// creating enemys to show on screen
 let enemy1 = new Enemy(-100,200,100)
-let enemy2 = new Enemy(250,100,70)
-let enemy3 = new Enemy(50,50,60)
+let enemy2 = new Enemy(250,100,50)
+let enemy3 = new Enemy(50,50,50)
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [enemy1, enemy2, enemy3];
 
 // Place the player object in a variable called player
 let player = new Player();
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to the
+// Player.handleInput() method
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
